@@ -1,4 +1,5 @@
 export interface MessageChat {
-  content: string,
-  user: string
+  _id: string
+  username: string
+  message: string
 }
