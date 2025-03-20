@@ -6,6 +6,7 @@ import cors from 'cors'
 import mongoose from "mongoose";
 import connectDB from "./database/db.js";
 import Chat from './models/chat.js'
+import ChatRequest from './models/chatRequest.js'
 
 const port = 3000
 
@@ -25,7 +26,6 @@ const getMessages = async () => {
 }
 
 io.on("connection", async (socket) => {
-  console.log("User has connected!", socket.id);
   getMessages()
 
   socket.on("chat_message", async (message, id) => {
@@ -35,11 +35,24 @@ io.on("connection", async (socket) => {
     });
     await newChat.save();
     getMessages()
+
   });
+ 
 
-
-
-
+  socket.on("chat_request", async ({ sender, receiver }) => {
+    const newChatRequest = new ChatRequest({
+      sender: sender,
+      receiver: receiver,
+      status: "pending",
+    });
+  
+    await newChatRequest.save();
+  
+    io.to(receiver).emit("notification", {
+      sender: sender,
+      message: "Tienes una petición de chat",
+    });
+  })
 })
 
 app.use(logger('dev'))
