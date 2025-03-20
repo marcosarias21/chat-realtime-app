@@ -14,8 +14,9 @@ const App = () => {
       console.log("Conected to server w/ ID:", socket.id)
     });
 
-    socket.on("chat_message", (message) => {
-      setMessageChat(messageChat => [...messageChat, message])
+    socket.on("chat_message", (messages) => {
+      console.log(messages)
+      setMessageChat(messages)
     });
 
     return () => {
