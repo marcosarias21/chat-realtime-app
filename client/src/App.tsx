@@ -10,18 +10,19 @@ const App = () => {
   const [messageChat, setMessageChat] = useState<MessageChat[]>([])
 
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log("Conected to server w/ ID:", socket.id)
+    socket.on("notification", (data) => {
+      console.log("Notificación recibida:", data);
     });
-
+    
     socket.on("chat_message", (messages) => {
       setMessageChat(messages)
     });
-
+    
+  
     return () => {
-      socket.off("connect")
-      socket.off("chat_message")
-    };
+      socket.off("chat_message");
+      socket.off("notification");
+    }
   }, [])
   
   return (

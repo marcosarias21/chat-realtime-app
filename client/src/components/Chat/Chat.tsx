@@ -7,11 +7,15 @@ interface Prop {
 }
 
 const Chat: React.FC<Prop> = ({ socket, messageChat }) => {
-  console.log(messageChat)
   const { setMessage, message  } = useMessageStore()
   const sendMessage  = () => {
     socket.emit("chat_message", message, socket.id)
     setMessage("")
+  }
+  
+  const createChatRequest = (userReceiver: string) => {
+    console.log(userReceiver)
+    socket.emit("chat_request", { sender: socket.id, receiver: userReceiver })
   }
 
   return (
@@ -20,10 +24,9 @@ const Chat: React.FC<Prop> = ({ socket, messageChat }) => {
         {messageChat?.map((chat, index) => 
         <div className={`flex mb-1 ${chat.username != socket.id && "justify-end text-gray-700" }`} key={index}>
           <div className={`bg-blue-500 font-medium py-3 px-3  flex ${chat.username != socket.id ? 'flex-row-reverse rounded-l-2xl rounded-t-2xl bg-gray-300 text-gray-700': "text-white/90 rounded-t-2xl rounded-r-2xl"}`}>
-            <p>{chat.username == socket.id ? "Me:" : `:${chat.username}`}</p>
+            <p onClick={() => createChatRequest(chat.username)}>{chat.username == socket.id ? "Me:" : `:${chat.username}`}</p>
             <p>{chat.message}</p>
           </div>
-
         </div>
         )}
       </div>
