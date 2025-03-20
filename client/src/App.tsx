@@ -8,14 +8,14 @@ const socket = io("http://localhost:3000")
 
 const App = () => {
   const [messageChat, setMessageChat] = useState<MessageChat[]>([])
-  console.log(messageChat)
+
   useEffect(() => {
     socket.on("connect", () => {
       console.log("Conected to server w/ ID:", socket.id)
     });
 
-    socket.on("chat_message", (message) => {
-      setMessageChat(messageChat => [...messageChat, message])
+    socket.on("chat_message", (messages) => {
+      setMessageChat(messages)
     });
 
     return () => {
