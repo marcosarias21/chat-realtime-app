@@ -23,6 +23,7 @@ const Chat: React.FC<Prop> = ({ socket, messageChat }) => {
             <p>{chat.username == socket.id ? "Me:" : `:${chat.username}`}</p>
             <p>{chat.message}</p>
           </div>
+
         </div>
         )}
       </div>
