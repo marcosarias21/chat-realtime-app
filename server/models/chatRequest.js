@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const chatRequest = mongoose.Schema({
+const chatRequest = new mongoose.Schema({
   sender: String,
   receiver: String,
   status: { type: String, enum: ["pending", "accepted", "rejected"], default: "pending" }
