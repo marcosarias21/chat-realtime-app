@@ -12,8 +12,6 @@ import login from './routes/login.js'
 const port = 3000
 
 const app = express( )
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 const server = http.createServer(app)
 const io = new Server(server, {
   cors: {
@@ -23,38 +21,37 @@ const io = new Server(server, {
 
 connectDB()
 
-app.use('/register', registerRoute)
-app.use('/login', login)
-
 
 const getMessages = async () => {
-  const messages = await Chat.find({});
-  io.emit("chat_message", messages);
+  const messages = await Chat.find({}).populate("user", "username");
+  return io.emit("chat_message", messages);
 }
 
 io.on("connection", async (socket) => {
   getMessages()
-
-  socket.on("chat_message", async (message, id) => {
+  
+  socket.on("chat_message", async (message, id_user) => {
+    
+    
     const newChat = new Chat({
-      username: id,
+      user: id_user,
       message,
     });
     await newChat.save();
-    getMessages()
-
+    await getMessages()
+    
   });
- 
-
+  
+  
   socket.on("chat_request", async ({ sender, receiver }) => {
     const newChatRequest = new ChatRequest({
       sender: sender,
       receiver: receiver,
       status: "pending",
     });
-  
+    
     await newChatRequest.save();
-  
+    
     io.to(receiver).emit("notification", {
       sender: sender,
       message: "Tienes una petición de chat",
@@ -62,8 +59,15 @@ io.on("connection", async (socket) => {
   })
 })
 
+
 app.use(logger('dev'))
-app.use(cors())
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cors({
+  origin: '*',
+}));
+app.use('/register', registerRoute)
+app.use('/login', login)
 mongoose.set('strictQuery', true)
 server.listen(port, () => {
   console.log(`Server running on port: ${port}`)

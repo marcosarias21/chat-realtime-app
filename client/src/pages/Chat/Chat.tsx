@@ -1,6 +1,5 @@
 import { io } from 'socket.io-client'
 import { useEffect, useState } from 'react'
-import './App.css'
 import { MessageChat } from '../../types/types.d'
 import { ChatComponent } from '../../components/ChatComponent'
 
@@ -13,8 +12,9 @@ const Chat = () => {
         console.log("Notificación recibida:", data);
       });
       
-      socket.on("chat_message", (messages) => {
-        setMessageChat(messages)
+      socket.on("chat_message", (data) => {
+        console.log({data})
+        // setMessageChat(data)
       });
       
     
