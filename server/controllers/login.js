@@ -7,26 +7,27 @@ const secretKey = process.env.SECRET_KEY
 
 const createLogin = async (req, res) => {
   const { username, password } = req.body
-  const user = await User.findOne({username})
+  console.log(username, password)
+  const user = await User.findOne({ username })
 
   if (!user) {
-    res.json({
+    return res.json({
       message: "User inexistent"
     })
   }
 
-  if (password != user.password) {
-    res.json({
-      message: "Username o password incorrect!"
+  if (password !== user.password) {
+    return res.json({
+      message: "Username or password incorrect!"
     })
   } else {
-    const token = jwt.sign({user}, secretKey, {expiresIn: '1h'})
-    res.json({
-      message: "Login succesfully",
+    const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' })
+    return res.status(200).json({
+      message: "Login successful",
       user,
-      token
+      token,  
     })
-  }  
+  }
 }
 
 export default createLogin

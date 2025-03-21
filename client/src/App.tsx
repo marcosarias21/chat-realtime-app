@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom"
 import { Login } from "./pages/Login"
 import { Chat } from "./pages/Chat"
+import './App.css'
 
 
 const App = () => {

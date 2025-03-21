@@ -1,3 +1,4 @@
+import { useAuthStore } from "../../store/authStore"
 import { useMessageStore } from "../../store/messageStore"
 import { MessageChat } from "../../types/types.d"
 
@@ -8,8 +9,10 @@ interface Prop {
 
 const Chat: React.FC<Prop> = ({ socket, messageChat }) => {
   const { setMessage, message  } = useMessageStore()
+  const { user } = useAuthStore()
+  console.log(user)
   const sendMessage  = () => {
-    socket.emit("chat_message", message, socket.id)
+    socket.emit("chat_message", message, user?._id)
     setMessage("")
   }
   
