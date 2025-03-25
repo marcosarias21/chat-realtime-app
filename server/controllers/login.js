@@ -7,7 +7,6 @@ const secretKey = process.env.SECRET_KEY
 
 const createLogin = async (req, res) => {
   const { username, password } = req.body
-  console.log(username, password)
   const user = await User.findOne({ username })
 
   if (!user) {
@@ -22,7 +21,7 @@ const createLogin = async (req, res) => {
     })
   } else {
     const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' })
-    return res.status(200).json({
+    return res.json({
       message: "Login successful",
       user,
       token,  

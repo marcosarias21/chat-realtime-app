@@ -23,16 +23,26 @@ connectDB()
 
 
 const getMessages = async () => {
-  const messages = await Chat.find({}).populate("user", "username");
+  const messages = await Chat.find({}).populate("user", "username")
   return io.emit("chat_message", messages);
 }
 
+const users = new Map()
+
+
 io.on("connection", async (socket) => {
-  getMessages()
   
-  socket.on("chat_message", async (message, id_user) => {
-    
-    
+  getMessages()
+
+  socket.on("user_logged", async (userId) => {
+    users.set(userId, socket.id)
+    const pendingRequest = await ChatRequest.findOne({ receiver: userId }).populate("receiver", "username")
+    if (pendingRequest) {
+      io.to(socket.id).emit('notification', "Request")
+    } 
+  })
+  
+  socket.on("chat_message", async (message, id_user) => {    
     const newChat = new Chat({
       user: id_user,
       message,
@@ -40,22 +50,29 @@ io.on("connection", async (socket) => {
     await newChat.save();
     await getMessages()
     
-  });
+  })
   
-  
-  socket.on("chat_request", async ({ sender, receiver }) => {
-    const newChatRequest = new ChatRequest({
-      sender: sender,
-      receiver: receiver,
-      status: "pending",
-    });
+  socket.on("chat_request", async (sender, receiver) => {
+    const existingChat = await ChatRequest.findOne({ sender, receiver })
+
+    if (existingChat) return;
     
-    await newChatRequest.save();
-    
-    io.to(receiver).emit("notification", {
-      sender: sender,
-      message: "Tienes una petición de chat",
-    });
+    const chatRequest = new ChatRequest({
+      sender,
+      receiver,
+      status: 'pending'
+    })
+    const receiverSocketId = users.get(receiver)
+    await chatRequest.save()
+
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("notification", {
+        sender,
+        message: "Tienes una nueva petición de chat",
+      })
+    } else {
+      console.log(" El usuario no está conectado.")
+    }
   })
 })
 
