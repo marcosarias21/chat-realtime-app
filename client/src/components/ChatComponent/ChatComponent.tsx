@@ -1,23 +1,22 @@
 import { useAuthStore } from "../../store/authStore"
 import { useMessageStore } from "../../store/messageStore"
+import { useSocketState } from "../../store/socketStore"
 import { MessageChat } from "../../types/types.d"
 
 interface Prop {
-  socket: any
   messageChat: MessageChat[]
 }
 
-const Chat: React.FC<Prop> = ({ socket, messageChat }) => {
+const Chat: React.FC<Prop> = ({ messageChat }) => {
   const { setMessage, message  } = useMessageStore()
+  const { socket } = useSocketState()
   const { user } = useAuthStore()
-  console.log(user)
   const sendMessage  = () => {
     socket.emit("chat_message", message, user?._id)
     setMessage("")
   }
   
   const createChatRequest = (userReceiver: string) => {
-    console.log(userReceiver)
     socket.emit("chat_request", { sender: socket.id, receiver: userReceiver })
   }
 
@@ -25,9 +24,9 @@ const Chat: React.FC<Prop> = ({ socket, messageChat }) => {
     <div className="min-h-[100%] border-1 h-full border-gray-300 flex flex-col items-center justify-between rounded">
       <div className="w-full p-2 overflow-y-scroll">
         {messageChat?.map((chat, index) => 
-        <div className={`flex mb-1 ${chat.username != socket.id && "justify-end text-gray-700" }`} key={index}>
-          <div className={`bg-blue-500 font-medium py-3 px-3  flex ${chat.username != socket.id ? 'flex-row-reverse rounded-l-2xl rounded-t-2xl bg-gray-300 text-gray-700': "text-white/90 rounded-t-2xl rounded-r-2xl"}`}>
-            <p onClick={() => createChatRequest(chat.username)}>{chat.username == socket.id ? "Me:" : `:${chat.username}`}</p>
+        <div className={`flex mb-1 ${chat?.user?.username != user?.username && "justify-end text-gray-700" }`} key={index}>
+          <div className={`bg-blue-500 font-medium py-3 px-3 flex flex-col ${chat?.user?.username !== user?.username ? 'flex flex-col rounded-l-2xl rounded-t-2xl bg-gray-300 text-gray-700': "text-white/90 rounded-t-2xl rounded-r-2xl"}`}>
+            <p className="font-bold text-xs" onClick={() => createChatRequest(chat?.user?.username)}>{chat?.user?.username == user?.username ? "Me:" : `${chat?.user?.username}`}</p>
             <p>{chat.message}</p>
           </div>
         </div>

@@ -2,7 +2,7 @@ import React from 'react'
 import { useLoginStore } from '../../store/loginStore'
 
 type Prop = {
-  handleLogin: () => void
+  handleLogin: (e: React.FormEvent<HTMLFormElement>) => void
 }
 
 const LoginComponent = ({ handleLogin }: Prop) => {
@@ -29,7 +29,6 @@ const LoginComponent = ({ handleLogin }: Prop) => {
                 className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="••••••••"
                 onChange={(e) => setPassword(e.target.value)}
-
               />
             </div>
             <button
