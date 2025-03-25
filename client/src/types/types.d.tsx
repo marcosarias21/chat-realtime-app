@@ -1,6 +1,6 @@
 export interface MessageChat {
   _id: string
-  username: string
+  user: Username
   message: string
 }
 
@@ -16,4 +16,8 @@ export interface JsonResp {
   message: string,
   user: User,
   token: string
+}
+
+type Username = {
+  username: string
 }

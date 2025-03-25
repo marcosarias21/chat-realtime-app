@@ -1,17 +1,14 @@
-import { useNavigate } from 'react-router-dom'
 import { LoginComponent } from '../../components/LoginComponent'
 import { useAuthStore } from '../../store/authStore'
 import { useLoginStore } from '../../store/loginStore'
 import { JsonResp } from '../../types/types.d'
-import { useEffect } from 'react'
 
 const Login = () => {
   const { username, password } = useLoginStore()
-  const navigate = useNavigate()
-  const { getUser, user } = useAuthStore()
-  console.log(user)
+  const { getUser } = useAuthStore()
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     const resp = await fetch('http://localhost:3000/login', {
       method: 'POST',
       body: JSON.stringify({
@@ -23,10 +20,9 @@ const Login = () => {
       },
     })
     const json: JsonResp = await resp.json()
-    console.log(json)
     if (json.token) {
-      getUser(json.user)
-      navigate('/app/chat')
+      getUser(json.user)     
+      window.location.href = '/app/chat'
     }
   }
 
