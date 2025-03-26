@@ -1,12 +1,11 @@
-import { create } from 'zustand'
-import { persist, createJSONStorage } from 'zustand/middleware'
-import { User } from '../types/types.d'
-
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
+import { User } from "../types/types.d";
 
 type loginStore = {
-  user: User | null
-  getUser: (user: User) => void
-}
+  user: User | null;
+  getUser: (user: User) => void;
+};
 
 export const useAuthStore = create<loginStore>()(
   persist(
@@ -15,8 +14,8 @@ export const useAuthStore = create<loginStore>()(
       getUser: (newUser) => set({ user: newUser }),
     }),
     {
-      name: 'login-storage',
+      name: "login-storage",
       storage: createJSONStorage(() => localStorage),
     },
   ),
-)
+);
