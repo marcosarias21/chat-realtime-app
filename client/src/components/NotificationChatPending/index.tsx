@@ -1,0 +1,1 @@
+export { default as NotificationChatPending } from './NotificationChatPending'
