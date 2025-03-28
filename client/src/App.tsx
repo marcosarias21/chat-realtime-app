@@ -10,8 +10,12 @@ const App = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) navigate("");
+    if (!user) {
+      navigate("");
+    }
+    navigate("/app/chat");
   }, []);
+
   return (
     <Routes>
       <Route path={""} element={<Login />} />

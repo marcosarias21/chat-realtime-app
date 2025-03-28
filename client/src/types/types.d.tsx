@@ -33,3 +33,14 @@ export interface ChatPending {
   _id: string;
   status: string;
 }
+
+type UserChat = {
+  _id: string;
+  username: string;
+};
+
+export interface ChatRoomType {
+  _id: string;
+  users: UserChat[];
+  message: MessageChat[];
+}
