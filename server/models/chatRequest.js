@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const chatRequest = new mongoose.Schema({
-  sender: String,
-  receiver: String,
+  sender: { type: mongoose.Schema.ObjectId, ref: "User" },
+  receiver:  { type: mongoose.Schema.ObjectId, ref: "User" },
   status: { type: String, enum: ["pending", "accepted", "rejected"], default: "pending" }
 })
 
