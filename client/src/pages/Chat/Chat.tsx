@@ -47,11 +47,6 @@ const Chat = () => {
 
   return (
     <section className="grid-row-12 container mx-auto grid h-dvh w-full gap-4 text-gray-700">
-      <header className="mt-4 flex h-fit items-center rounded-2xl border-1 border-gray-300 px-4 py-2">
-        <div>
-          <h2 className="font-bold">ChatArg</h2>
-        </div>
-      </header>
       <div className="row-span-11 flex justify-center">
         <div className="flex flex-col items-center">
           <div>
@@ -64,10 +59,6 @@ const Chat = () => {
             {chatPending && <ToastContainer />}
           </div>
           <div className="flex w-full justify-center text-red-50"></div>
-        </div>
-        <div>
-          <h2 className="font-medium">Chats</h2>
-          {chatsRoom?.map((chat) => <ChatRoom key={chat._id} {...chat} />)}
         </div>
       </div>
       <footer className="row-span-1 flex items-center justify-center font-bold text-gray-700">

@@ -46,6 +46,7 @@ export interface ChatRoomType {
 }
 
 export interface ChatRoomActual {
-  users: UserChat[]
-  message: MessageChat[]
+  _id: string
+  users: UserChat | undefined
+  message: MessageChat[] | undefined
 }
