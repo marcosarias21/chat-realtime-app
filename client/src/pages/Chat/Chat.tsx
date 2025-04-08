@@ -5,14 +5,11 @@ import { useSocketState } from '../../store/socketStore'
 import { useAuthStore } from '../../store/authStore'
 import { ToastContainer, toast } from 'react-toastify'
 import { NotificationChatPending } from '@/components/NotificationChatPending'
-import { ChatRoom } from '@/components/ChatRoom'
 
 const Chat = () => {
   const [messageChat, setMessageChat] = useState<MessageChat[]>([])
   const [chatPending, setChatPending] = useState<ChatPending>()
   const [chatsRoom, setChatsRoom] = useState<ChatRoomType[]>([])
-  console.log(chatsRoom)
-
   const { socket } = useSocketState()
   const { user } = useAuthStore()
 
@@ -49,9 +46,6 @@ const Chat = () => {
     <section className="grid-row-12 container mx-auto grid h-dvh w-full gap-4 text-gray-700">
       <div className="row-span-11 flex justify-center">
         <div className="flex flex-col items-center">
-          <div>
-            <h1 className="text-2xl font-bold">General Chat</h1>
-          </div>
           <div className="flex h-full w-full justify-center gap-4">
             <div className="w-full">
               <ChatComponent messageChat={messageChat} />
