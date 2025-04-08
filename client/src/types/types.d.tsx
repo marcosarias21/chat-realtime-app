@@ -1,7 +1,7 @@
 export interface MessageChat {
   _id: string
   user: Username
-  message: string
+  text: string
 }
 
 export interface User {
