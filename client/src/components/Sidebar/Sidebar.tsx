@@ -1,14 +1,18 @@
 import { useAuthStore } from '@/store/authStore'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { User, MessageCircle } from 'lucide-react'
 import { useChatStore } from '@/store/chatStore'
+import { useState } from 'react'
 
 const Sidebar = () => {
   const { user } = useAuthStore()
   const { chatAvailable } = useChatStore()
+  const [idPath, setIdPath] = useState<string>()
+  const { pathname } = useLocation()
   const navigate = useNavigate()
 
   const handleRoom = (id: string) => {
+    setIdPath(id)
     navigate(`/app/chat/${id}`)
   }
 
@@ -25,7 +29,7 @@ const Sidebar = () => {
       <div className="mt-5 flex flex-col gap-5 px-10">
         <h2 className="font-medium text-blue-400">Chats</h2>
         <div
-          className="flex cursor-pointer items-center gap-1 rounded-2xl border-1 border-gray-300 py-2"
+          className={`flex cursor-pointer items-center rounded-2xl border-1 border-gray-300 py-2 ${pathname === '/app/chat' && 'border-none bg-blue-400 text-gray-100 shadow-lg shadow-black/30'}`}
           onClick={() => (window.location.href = '/app/chat')}
         >
           <span className="border- rounded-full border-gray-400 p-1">
@@ -35,10 +39,12 @@ const Sidebar = () => {
             <h2 className="font-bold">General Chat</h2>
           </div>
         </div>
-        <div className="flex items-center gap-2 rounded-2xl border-1 border-b-1 border-gray-300 py-2">
+        <div
+          className={`flex items-center gap-2 rounded-2xl border-1 border-b-1 border-gray-300 py-2 ${pathname === `/app/chat/${idPath}` && 'border-none bg-blue-400 text-gray-100 shadow-lg shadow-black/30'}`}
+        >
           {chatAvailable.map((chat) => (
             <div
-              className="flex cursor-pointer items-center gap-1"
+              className="flex cursor-pointer items-center"
               onClick={() => handleRoom(chat._id)}
             >
               <span className="rounded-full p-1">

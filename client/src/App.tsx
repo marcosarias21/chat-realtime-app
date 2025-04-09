@@ -1,7 +1,6 @@
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { Login } from './pages/Login'
 import { Chat } from './pages/Chat'
-import './App.css'
 import { useEffect } from 'react'
 import { useAuthStore } from './store/authStore'
 import { Room } from './pages/Room'
@@ -9,13 +8,14 @@ import { Sidebar } from './components/Sidebar'
 import { useSocketState } from './store/socketStore'
 import { ChatRoomType } from './types/types.d'
 import { useChatStore } from './store/chatStore'
+import './App.css'
 
 const App = () => {
   const { user } = useAuthStore()
   const location = useLocation()
   const navigate = useNavigate()
   const { socket } = useSocketState()
-  const { chatAvailable, setChatAvailable } = useChatStore()
+  const { setChatAvailable } = useChatStore()
 
   useEffect(() => {
     if (!user) {
@@ -30,7 +30,7 @@ const App = () => {
         setChatAvailable(chatsFiltered)
       }
     })
-  }, [location.pathname])
+  }, [socket, user, location.pathname])
 
   return (
     <div className="flex">
