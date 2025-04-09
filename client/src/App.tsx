@@ -21,6 +21,7 @@ const App = () => {
     if (!user) {
       navigate('')
     }
+    socket.emit('user_logged', user?._id)
     socket.on('chat_available', (chats: ChatRoomType[]) => {
       if (chats) {
         const chatsFiltered = chats.map((chat) => ({
