@@ -11,7 +11,6 @@ const Room = () => {
   const { id } = useParams()
   const { user } = useAuthStore()
   const [roomData, setRoomData] = useState<ChatRoomActual>()
-  console.log(roomData)
   const userFiltered: any[] | undefined = roomData?.users?.filter(
     (u) => u.username != user?.username,
   )
@@ -27,6 +26,7 @@ const Room = () => {
 
     return () => {
       socket.off('room_created')
+      socket.off('new_message')
     }
   }, [socket, id, location.pathname])
 

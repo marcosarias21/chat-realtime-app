@@ -1,7 +1,7 @@
-export interface MessageChat {
+export interface MessageChatGeneral {
   _id: string
   user: Username
-  text: string
+  message: string
 }
 
 export interface User {
@@ -20,6 +20,7 @@ export interface JsonResp {
 
 type Username = {
   username: string
+  _id: string
 }
 
 type UserSendingRequest = {
@@ -39,6 +40,12 @@ export type UserChat = {
   username: string
 }
 
+export interface MessageChat {
+  _id: string
+  sender: Username
+  text: string
+}
+
 export interface ChatRoomType {
   _id: string
   users: UserChat[]
@@ -46,6 +53,12 @@ export interface ChatRoomType {
 }
 
 export interface ChatRoomActual {
+  _id: string
+  users: UserChat[] | undefined
+  message: MessageChat[] | undefined
+}
+
+export interface ChatRoomFiltered {
   _id: string
   users: UserChat | undefined
   message: MessageChat[] | undefined

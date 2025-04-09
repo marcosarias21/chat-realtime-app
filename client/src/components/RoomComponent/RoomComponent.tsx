@@ -5,11 +5,10 @@ import { useState } from 'react'
 
 type Prop = {
   contentChat?: MessageChat[]
-  idRoom: ChatRoomType['_id']
+  idRoom?: ChatRoomType['_id']
 }
 
 const RoomComponent: React.FC<Prop> = ({ contentChat, idRoom }) => {
-  console.log(idRoom)
   const [inputValue, setInputValue] = useState<string>('')
   const { socket } = useSocketState()
   const { user } = useAuthStore()
@@ -27,12 +26,13 @@ const RoomComponent: React.FC<Prop> = ({ contentChat, idRoom }) => {
       <div className="h-full w-full overflow-y-scroll p-2">
         {contentChat?.map((content, index) => (
           <div
-            className={`mb-1 flex ${content?.user?.username != user?.username && 'justify-end text-gray-700'}`}
+            className={`mb-1 flex ${content?.sender.username != user?.username && 'justify-end text-gray-700'}`}
             key={index}
           >
             <div
-              className={`flex flex-col bg-blue-500 px-3 py-3 font-medium ${content?.user?.username !== user?.username ? 'flex flex-col rounded-t-2xl rounded-l-2xl bg-gray-300 text-gray-700' : 'rounded-t-2xl rounded-r-2xl text-white/90'}`}
+              className={`flex flex-col bg-blue-500 px-3 py-3 font-medium ${content?.sender?.username !== user?.username ? 'flex flex-col rounded-t-2xl rounded-l-2xl bg-gray-300 text-gray-700' : 'rounded-t-2xl rounded-r-2xl text-white/90'}`}
             >
+              <span className="text-xs">{content.sender.username}</span>
               <p>{content.text}</p>
             </div>
           </div>

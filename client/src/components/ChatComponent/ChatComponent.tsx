@@ -2,12 +2,12 @@ import { Button } from '@headlessui/react'
 import { useAuthStore } from '../../store/authStore'
 import { useMessageStore } from '../../store/messageStore'
 import { useSocketState } from '../../store/socketStore'
-import { MessageChat } from '../../types/types.d'
+import { MessageChatGeneral } from '../../types/types.d'
 import { useModalStore } from '../../store/modalStore'
 import { ModalRequestUser } from '../ModalRequestUser'
 
 interface Prop {
-  messageChat: MessageChat[]
+  messageChat: MessageChatGeneral[]
 }
 
 const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
@@ -22,13 +22,12 @@ const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
   }
 
   const handleRequest = (userToRequest: any) => {
-    console.log(userToRequest._id)
     setOpen(true)
     setUserReceiver(userToRequest._id)
   }
 
   return (
-    <div className="flex h-full min-h-[100%] flex-col items-center justify-between rounded border-1 border-gray-300">
+    <div className="flex min-h-[60%] flex-col items-center justify-between rounded border-1 border-gray-300">
       <div className="h-full w-full overflow-y-scroll p-2">
         {messageChat?.map((chat, index) => (
           <div

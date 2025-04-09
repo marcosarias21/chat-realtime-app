@@ -1,11 +1,14 @@
+import { useEffect } from 'react'
 import { LoginComponent } from '../../components/LoginComponent'
 import { useAuthStore } from '../../store/authStore'
 import { useLoginStore } from '../../store/loginStore'
 import { JsonResp } from '../../types/types.d'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
+  const navigate = useNavigate()
   const { username, password } = useLoginStore()
-  const { getUser } = useAuthStore()
+  const { getUser, user } = useAuthStore()
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -25,6 +28,10 @@ const Login = () => {
       window.location.href = '/app/chat'
     }
   }
+
+  useEffect(() => {
+    if (user) navigate('/app/chat')
+  }, [])
 
   return (
     <section className="flex h-dvh w-full items-center justify-center">
