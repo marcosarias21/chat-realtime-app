@@ -22,7 +22,7 @@ const RoomComponent: React.FC<Prop> = ({ contentChat, idRoom }) => {
   }
 
   return (
-    <div className="flex min-h-[60%] w-full flex-col items-center justify-between rounded border-1 border-gray-300">
+    <div className="flex min-h-[90%] w-full flex-col items-center justify-between rounded border-1 border-gray-300">
       <div className="h-full w-full overflow-y-scroll p-2">
         {contentChat?.map((content, index) => (
           <div

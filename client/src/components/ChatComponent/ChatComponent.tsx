@@ -27,7 +27,7 @@ const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
   }
 
   return (
-    <div className="flex min-h-[60%] flex-col items-center justify-between rounded border-1 border-gray-300">
+    <div className="flex min-h-[90%] flex-col items-center justify-between rounded border-1 border-gray-300">
       <div className="h-full w-full overflow-y-scroll p-2">
         {messageChat?.map((chat, index) => (
           <div
