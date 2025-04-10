@@ -31,8 +31,10 @@ const Room = () => {
   }, [socket, id, location.pathname])
 
   return (
-    <div className="container mx-auto flex h-dvh w-full flex-col items-center justify-center gap-2">
-      <h2>Chat w/ {userFiltered && userFiltered[0].username}</h2>
+    <div className="container mx-auto flex h-dvh w-full flex-col items-center justify-center text-gray-700">
+      <h2 className="text-center font-medium">
+        Chat w/ {userFiltered && userFiltered[0].username}
+      </h2>
       <RoomComponent contentChat={roomData?.message} idRoom={roomData?._id} />
     </div>
   )

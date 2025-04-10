@@ -13,6 +13,7 @@ import './App.css'
 const App = () => {
   const { user } = useAuthStore()
   const location = useLocation()
+  const { setUsersOnline } = useChatStore()
   const navigate = useNavigate()
   const { socket } = useSocketState()
   const { setChatAvailable } = useChatStore()
@@ -22,6 +23,14 @@ const App = () => {
       navigate('')
     }
     socket.emit('user_logged', user?._id)
+    socket.on('users_connected', (users) => {
+      setUsersOnline(users)
+    })
+
+    socket.on('disconnect', () => {
+      console.log('Desconectado')
+    })
+
     socket.on('chat_available', (chats: ChatRoomType[]) => {
       if (chats) {
         const chatsFiltered = chats.map((chat) => ({
@@ -31,6 +40,11 @@ const App = () => {
         setChatAvailable(chatsFiltered)
       }
     })
+    return () => {
+      socket.off('user_logged')
+      socket.off('users_connected')
+      socket.off('chat_available')
+    }
   }, [socket, user, location.pathname])
 
   return (
