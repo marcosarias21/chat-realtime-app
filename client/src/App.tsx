@@ -48,8 +48,12 @@ const App = () => {
   }, [socket, user, location.pathname])
 
   return (
-    <div className="flex">
-      {location.pathname !== '/' && <Sidebar />}
+    <div className="mx-4 my-2 flex border-1 border-gray-300">
+      {location.pathname !== '/' && (
+        <div className="w-90 border-r-1 border-gray-300">
+          <Sidebar />
+        </div>
+      )}
       <Routes>
         <Route path={''} element={<Login />} />
         <Route path={'/app/chat'} element={<Chat />} />
