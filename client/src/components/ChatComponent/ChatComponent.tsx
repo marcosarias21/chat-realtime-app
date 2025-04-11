@@ -5,6 +5,7 @@ import { useSocketState } from '../../store/socketStore'
 import { MessageChatGeneral } from '../../types/types.d'
 import { useModalStore } from '../../store/modalStore'
 import { ModalRequestUser } from '../ModalRequestUser'
+import { Send } from 'lucide-react'
 
 interface Prop {
   messageChat: MessageChatGeneral[]
@@ -27,8 +28,8 @@ const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
   }
 
   return (
-    <div className="flex min-h-[90%] flex-col items-center justify-between rounded border-1 border-gray-300">
-      <div className="h-full w-full overflow-y-scroll p-2">
+    <div className="flex h-[100%] flex-col items-center justify-between rounded">
+      <div className="h-full w-full p-2">
         {messageChat?.map((chat, index) => (
           <div
             className={`mb-1 flex ${chat?.user?.username != user?.username && 'justify-end text-gray-700'}`}
@@ -51,16 +52,16 @@ const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
           </div>
         ))}
       </div>
-      <div className="flex w-full">
+      <div className="flex w-full rounded px-5">
         <input
-          className="block w-full border border-gray-400 px-4 py-3 text-sm font-medium focus:border-blue-400 focus:ring-1 focus:ring-blue-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
+          className="block w-full rounded-2xl border border-gray-300 px-4 py-3 text-sm font-medium focus:border-blue-400 focus:ring-1 focus:ring-blue-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
           type="text"
           placeholder="Enter message"
           onChange={({ target }) => setMessage(target.value)}
           value={message}
         />
-        <button onClick={sendMessage} className="bg-blue-400 px-2 text-white">
-          Enviar
+        <button onClick={sendMessage} className="px-2 text-gray-400">
+          <Send />
         </button>
       </div>
     </div>

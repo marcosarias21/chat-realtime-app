@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/store/authStore'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { User, MessageCircle } from 'lucide-react'
+import { User, MessageCircle, Users } from 'lucide-react'
 import { useChatStore } from '@/store/chatStore'
 import { useState } from 'react'
 
@@ -18,7 +18,7 @@ const Sidebar = () => {
   }
 
   return (
-    <header className="flex w-80 flex-col border-r-1 border-gray-300 text-gray-600">
+    <header className="flex w-full flex-col">
       <div className="mt-10 mb-10 flex w-full items-center gap-2 pl-10">
         <span className="rounded-full border-0 border-gray-400 bg-green-300 p-5"></span>
         <div>
@@ -27,10 +27,15 @@ const Sidebar = () => {
         </div>
       </div>
       <hr className="border-gray-300" />
-      <div className="mt-5 flex flex-col gap-0 px-10">
-        <h2 className="font-medium text-blue-400">Chats</h2>
+      <div className="mt-2 flex flex-col">
+        <div className="my-4 flex items-center">
+          <span className="ml-4">
+            <Users />
+          </span>
+          <h2 className="ml-1 text-xl font-medium text-gray-600">Chats</h2>
+        </div>
         <div
-          className={`flex cursor-pointer items-center border-1 border-gray-300 py-2 ${pathname === '/app/chat' && 'border-none bg-blue-400 text-gray-100'}`}
+          className={`flex cursor-pointer items-center py-2 ${pathname === '/app/chat' && 'border-none bg-blue-400 text-gray-100'}`}
           onClick={() => (window.location.href = '/app/chat')}
         >
           <span className="mx-2 rounded-full border-1 p-1">
@@ -41,7 +46,7 @@ const Sidebar = () => {
           </div>
         </div>
         <div
-          className={`flex items-center gap-2 border-1 border-b-1 border-gray-300 py-2 ${pathname === `/app/chat/${idPath}` && 'border-none bg-blue-400 text-gray-100'}`}
+          className={`flex w-full items-center gap-2 py-2 ${pathname === `/app/chat/${idPath}` && 'border-none bg-blue-400 text-gray-100'}`}
         >
           {chatAvailable.map((chat) => (
             <div
@@ -53,12 +58,12 @@ const Sidebar = () => {
               </span>
               <div>
                 <h2 className="font-bold">{chat.users?.username}</h2>
-                <span>
-                  Status:
-                  {userOnlineKey.includes(chat.users?._id)
-                    ? 'Online'
-                    : 'Offline'}
-                </span>
+                Status:
+                {chat.users?._id && userOnlineKey.includes(chat.users?._id) ? (
+                  <span className="font-semibold text-green-500"> Online</span>
+                ) : (
+                  <span className="font-semibold text-red-500"> Offline</span>
+                )}
               </div>
             </div>
           ))}

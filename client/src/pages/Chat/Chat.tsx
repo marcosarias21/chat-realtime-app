@@ -40,7 +40,6 @@ const Chat = () => {
   return (
     <section className="container mx-auto flex h-dvh w-full items-center justify-center gap-4 text-gray-700">
       <div className="flex h-full w-full flex-col justify-center">
-        <h2 className="text-center font-medium">Chat General</h2>
         <ChatComponent messageChat={messageChat} />
       </div>
       {chatPending && <ToastContainer />}
