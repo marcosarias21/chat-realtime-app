@@ -34,7 +34,7 @@ const App = () => {
 
     socket.on('chat_available', (chats: ChatRoomType[]) => {
       if (chats) {
-        const chatsFiltered = chats.map((chat) => ({
+        const chatsFiltered = chats?.map((chat) => ({
           ...chat,
           users: chat.users.find((c) => c.username != user?.username),
         }))

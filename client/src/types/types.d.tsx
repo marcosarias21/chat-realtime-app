@@ -44,6 +44,8 @@ export interface MessageChat {
   _id: string
   sender: Username
   text: string
+  filename: string
+  buffer: string
 }
 
 export interface ChatRoomType {

@@ -12,14 +12,36 @@ type Prop = {
 const RoomComponent: React.FC<Prop> = ({ contentChat, idRoom }) => {
   const [inputValue, setInputValue] = useState<string>('')
   const { socket } = useSocketState()
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  console.log(imageFile)
   const { user } = useAuthStore()
 
   const handleSendMessage = () => {
-    socket.emit('send_message', {
-      roomID: idRoom,
-      text: inputValue,
-      id_user: user?._id,
-    })
+    if (imageFile === null) {
+      socket.emit('send_message', {
+        roomID: idRoom,
+        text: inputValue,
+        id_user: user?._id,
+        filename: null,
+        buffer: null,
+      })
+    } else {
+      const reader = new FileReader()
+      reader.onload = () => {
+        const base64string = reader.result
+        if (base64string) {
+          socket.emit('send_message', {
+            roomID: idRoom,
+            text: inputValue,
+            id_user: user?._id,
+            filename: imageFile.name,
+            buffer: base64string,
+          })
+          setImageFile(null)
+        }
+      }
+      reader.readAsDataURL(imageFile)
+    }
   }
 
   return (
@@ -33,8 +55,18 @@ const RoomComponent: React.FC<Prop> = ({ contentChat, idRoom }) => {
             <div
               className={`flex flex-col bg-blue-500 px-3 py-3 font-medium ${content?.sender?.username !== user?.username ? 'flex flex-col rounded-t-2xl rounded-l-2xl bg-gray-300 text-gray-700' : 'rounded-t-2xl rounded-r-2xl text-white/90'}`}
             >
-              <span className="text-xs">{content.sender.username}</span>
+              <span className="text-xs">
+                {content.sender.username === user?.username
+                  ? 'Me'
+                  : content.sender.username}
+              </span>
               <p>{content.text}</p>
+              {content.buffer && (
+                <img
+                  src={content.buffer}
+                  className="max-h-64 max-w-xs rounded-lg"
+                />
+              )}
             </div>
           </div>
         ))}
@@ -46,6 +78,11 @@ const RoomComponent: React.FC<Prop> = ({ contentChat, idRoom }) => {
           placeholder="Enter message"
           onChange={({ target }) => setInputValue(target.value)}
           value={inputValue}
+        />
+        <input
+          className="rounded-2xl border border-gray-300 px-4 py-3 text-sm font-medium focus:border-blue-400 focus:ring-1 focus:ring-blue-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
+          type="file"
+          onChange={({ target }) => setImageFile(target.files?.[0] ?? null)}
         />
         <button onClick={handleSendMessage} className="px-2 text-gray-400">
           <Send />
