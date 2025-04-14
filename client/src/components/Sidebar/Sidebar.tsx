@@ -18,7 +18,7 @@ const Sidebar = () => {
   }
 
   return (
-    <header className="flex w-full flex-col">
+    <header className="flex w-full flex-col text-gray-700">
       <div className="mt-10 mb-10 flex w-full items-center gap-2 pl-10">
         <span className="rounded-full border-0 border-gray-400 bg-green-300 p-5"></span>
         <div>

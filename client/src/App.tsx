@@ -9,6 +9,7 @@ import { useSocketState } from './store/socketStore'
 import { ChatRoomType } from './types/types.d'
 import { useChatStore } from './store/chatStore'
 import './App.css'
+import { Navbar } from './components/Navbar'
 
 const App = () => {
   const { user } = useAuthStore()
@@ -48,17 +49,20 @@ const App = () => {
   }, [socket, user, location.pathname])
 
   return (
-    <div className="mx-4 my-2 flex border-1 border-gray-300">
-      {location.pathname !== '/' && (
-        <div className="w-90 border-r-1 border-gray-300">
-          <Sidebar />
-        </div>
-      )}
-      <Routes>
-        <Route path={''} element={<Login />} />
-        <Route path={'/app/chat'} element={<Chat />} />
-        <Route path={'/app/chat/:id'} element={<Room />} />
-      </Routes>
+    <div>
+      {location.pathname !== '/' && <Navbar />}
+      <div className="mx-4 my-2 flex border-1 border-gray-300">
+        {location.pathname !== '/' && (
+          <div className="w-90 border-r-1 border-gray-300">
+            <Sidebar />
+          </div>
+        )}
+        <Routes>
+          <Route path={''} element={<Login />} />
+          <Route path={'/app/chat'} element={<Chat />} />
+          <Route path={'/app/chat/:id'} element={<Room />} />
+        </Routes>
+      </div>
     </div>
   )
 }

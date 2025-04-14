@@ -52,7 +52,7 @@ const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
           </div>
         ))}
       </div>
-      <div className="flex w-full rounded px-5">
+      <div className="mb-2 flex w-full rounded px-5">
         <input
           className="block w-full rounded-2xl border border-gray-300 px-4 py-3 text-sm font-medium focus:border-blue-400 focus:ring-1 focus:ring-blue-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
           type="text"
