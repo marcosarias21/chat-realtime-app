@@ -21,6 +21,7 @@ const Room = () => {
       setRoomData(data)
     })
     socket.on('new_message', (data) => {
+      console.log(data)
       setRoomData(data)
     })
 
