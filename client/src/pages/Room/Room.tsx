@@ -8,12 +8,13 @@ import { useLocation, useParams } from 'react-router-dom'
 const Room = () => {
   const { socket } = useSocketState()
   const location = useLocation()
-  const { id } = useParams()
   const { user } = useAuthStore()
+  const { id } = useParams()
   const [roomData, setRoomData] = useState<ChatRoomActual>()
-  const userFiltered: any[] | undefined = roomData?.users?.filter(
-    (u) => u.username != user?.username,
+  const userFiltered: any = roomData?.users?.find(
+    (u) => u?.username !== user?.username,
   )
+  console.log(userFiltered)
 
   useEffect(() => {
     socket.emit('joinRoom', id)
@@ -32,11 +33,14 @@ const Room = () => {
   }, [socket, id, location.pathname])
 
   return (
-    <div className="container mx-auto flex h-dvh w-full flex-col items-center justify-center text-gray-700">
-      <h2 className="text-center font-medium">
-        Chat w/ {userFiltered && userFiltered[0].username}
-      </h2>
-      <RoomComponent contentChat={roomData?.message} idRoom={roomData?._id} />
+    <div className="container mx-auto flex h-full w-full items-center justify-center gap-4 text-gray-700">
+      <div className="flex h-[100%] w-full flex-col justify-center">
+        <RoomComponent
+          contentChat={roomData?.message}
+          idRoom={roomData?._id}
+          userContact={userFiltered?.username}
+        />
+      </div>
     </div>
   )
 }

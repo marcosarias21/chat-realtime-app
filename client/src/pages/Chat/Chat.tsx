@@ -38,8 +38,8 @@ const Chat = () => {
   }, [chatPending])
 
   return (
-    <section className="container mx-auto flex h-dvh w-full items-center justify-center gap-4 text-gray-700">
-      <div className="flex h-full w-full flex-col justify-center">
+    <section className="container mx-auto flex h-full w-full items-center justify-center gap-4 text-gray-700">
+      <div className="flex h-[100%] w-full flex-col justify-center">
         <ChatComponent messageChat={messageChat} />
       </div>
       {chatPending && <ToastContainer />}

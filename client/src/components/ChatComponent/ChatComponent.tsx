@@ -29,7 +29,7 @@ const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
 
   return (
     <div className="flex h-[100%] flex-col items-center justify-between rounded">
-      <div className="h-full w-full p-2">
+      <div className="h-full w-full overflow-y-scroll p-2">
         {messageChat?.map((chat, index) => (
           <div
             className={`mb-1 flex ${chat?.user?.username != user?.username && 'justify-end text-gray-700'}`}
@@ -52,7 +52,7 @@ const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
           </div>
         ))}
       </div>
-      <div className="mb-2 flex w-full rounded px-5">
+      <div className="mb-2 flex w-full rounded px-2 pt-4">
         <input
           className="block w-full rounded-2xl border border-gray-300 px-4 py-3 text-sm font-medium focus:border-blue-400 focus:ring-1 focus:ring-blue-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
           type="text"

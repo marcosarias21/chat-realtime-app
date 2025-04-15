@@ -35,7 +35,7 @@ const Sidebar = () => {
           <h2 className="ml-1 text-xl font-medium text-gray-600">Chats</h2>
         </div>
         <div
-          className={`flex cursor-pointer items-center py-2 ${pathname === '/app/chat' && 'border-none bg-blue-400 text-gray-100'}`}
+          className={`flex cursor-pointer items-center py-2 transition-colors hover:bg-blue-300 hover:text-white ${pathname === '/app/chat' && 'border-none bg-blue-400 text-gray-100'}`}
           onClick={() => (window.location.href = '/app/chat')}
         >
           <span className="mx-2 rounded-full border-1 p-1">
@@ -46,7 +46,7 @@ const Sidebar = () => {
           </div>
         </div>
         <div
-          className={`flex w-full items-center gap-2 py-2 ${pathname === `/app/chat/${idPath}` && 'border-none bg-blue-400 text-gray-100'}`}
+          className={`flex w-full items-center gap-2 py-2 transition-colors hover:bg-blue-300 hover:text-white ${pathname === `/app/chat/${idPath}` && 'border-none bg-blue-400 text-gray-100'}`}
         >
           {chatAvailable.map((chat) => (
             <div
