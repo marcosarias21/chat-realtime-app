@@ -1,13 +1,15 @@
 import { useAuthStore } from '@/store/authStore'
+import { useChatStore } from '@/store/chatStore'
 import { useSocketState } from '@/store/socketStore'
-import { ChatRoomType, MessageChat } from '@/types/types.d'
-import { Send } from 'lucide-react'
+import { ChatRoomType, MessageChat, UserChat } from '@/types/types.d'
+import { Send, Trash, User } from 'lucide-react'
 import { useState } from 'react'
+import { Button } from '../ui/button'
 
 type Prop = {
   contentChat?: MessageChat[]
   idRoom?: ChatRoomType['_id']
-  userContact: string
+  userContact: UserChat
 }
 
 const RoomComponent: React.FC<Prop> = ({
@@ -18,7 +20,7 @@ const RoomComponent: React.FC<Prop> = ({
   const [inputValue, setInputValue] = useState<string>('')
   const { socket } = useSocketState()
   const [imageFile, setImageFile] = useState<File | null>(null)
-  console.log(imageFile)
+  const { usersOnline } = useChatStore()
   const { user } = useAuthStore()
 
   const handleSendMessage = () => {
@@ -51,8 +53,30 @@ const RoomComponent: React.FC<Prop> = ({
 
   return (
     <div className="flex h-[100%] w-full flex-col items-center justify-between rounded border-gray-300">
-      <div className="w-full border-b-1 border-gray-300 px-2 py-4">
-        <p>{userContact}</p>
+      <div className="flex w-full justify-between gap-2 border-b-1 border-gray-300 px-2 py-4">
+        <div className="flex gap-2">
+          <span className="flex w-fit items-center rounded-full border-2 p-2 text-gray-400">
+            <User />
+          </span>
+          <div className="flex flex-col items-center">
+            <div>
+              <p className="font-bold">{userContact?.username}</p>
+              <p>
+                Status:{' '}
+                <span
+                  className={`${Object.keys(usersOnline)?.includes(userContact?._id) && 'font-bold text-green-400'}`}
+                >
+                  Online
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center">
+          <Button className="bg-red-500 text-white">
+            <Trash /> Delete chat
+          </Button>
+        </div>
       </div>
       <div className="h-full w-full overflow-y-scroll p-2">
         {contentChat?.map((content, index) => (
@@ -61,13 +85,8 @@ const RoomComponent: React.FC<Prop> = ({
             key={index}
           >
             <div
-              className={`flex flex-col bg-blue-500 px-3 py-3 font-medium ${content?.sender?.username !== user?.username ? 'flex flex-col rounded-t-2xl rounded-l-2xl bg-gray-300 text-gray-700' : 'rounded-t-2xl rounded-r-2xl text-white/90'}`}
+              className={`flex flex-col bg-blue-500 px-3 py-3 font-medium ${content?.sender?.username !== user?.username ? 'flex flex-col rounded-t-2xl rounded-l-2xl bg-gray-300 text-gray-700' : 'rounded-t-2xl rounded-r-2xl text-white/90'} ${content?.buffer && 'bg-white'}`}
             >
-              <span className="text-xs">
-                {content.sender.username === user?.username
-                  ? 'Me'
-                  : content.sender.username}
-              </span>
               <p>{content.text}</p>
               {content.buffer && (
                 <img

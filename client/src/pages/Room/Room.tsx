@@ -22,7 +22,6 @@ const Room = () => {
       setRoomData(data)
     })
     socket.on('new_message', (data) => {
-      console.log(data)
       setRoomData(data)
     })
 
@@ -38,7 +37,7 @@ const Room = () => {
         <RoomComponent
           contentChat={roomData?.message}
           idRoom={roomData?._id}
-          userContact={userFiltered?.username}
+          userContact={userFiltered}
         />
       </div>
     </div>
