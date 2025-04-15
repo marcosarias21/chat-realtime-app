@@ -49,9 +49,9 @@ const App = () => {
   }, [socket, user, location.pathname])
 
   return (
-    <div>
+    <div className="h-dvh">
       {location.pathname !== '/' && <Navbar />}
-      <div className="mx-4 my-2 flex border-1 border-gray-300">
+      <div className="mx-4 my-2 flex h-[90%] border-1 border-gray-300">
         {location.pathname !== '/' && (
           <div className="w-90 border-r-1 border-gray-300">
             <Sidebar />

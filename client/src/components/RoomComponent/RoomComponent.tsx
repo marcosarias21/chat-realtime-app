@@ -7,9 +7,14 @@ import { useState } from 'react'
 type Prop = {
   contentChat?: MessageChat[]
   idRoom?: ChatRoomType['_id']
+  userContact: string
 }
 
-const RoomComponent: React.FC<Prop> = ({ contentChat, idRoom }) => {
+const RoomComponent: React.FC<Prop> = ({
+  contentChat,
+  idRoom,
+  userContact,
+}) => {
   const [inputValue, setInputValue] = useState<string>('')
   const { socket } = useSocketState()
   const [imageFile, setImageFile] = useState<File | null>(null)
@@ -46,6 +51,9 @@ const RoomComponent: React.FC<Prop> = ({ contentChat, idRoom }) => {
 
   return (
     <div className="flex h-[100%] w-full flex-col items-center justify-between rounded border-gray-300">
+      <div className="w-full border-b-1 border-gray-300 px-2 py-4">
+        <p>{userContact}</p>
+      </div>
       <div className="h-full w-full overflow-y-scroll p-2">
         {contentChat?.map((content, index) => (
           <div
@@ -71,7 +79,7 @@ const RoomComponent: React.FC<Prop> = ({ contentChat, idRoom }) => {
           </div>
         ))}
       </div>
-      <div className="mb-2 flex w-full rounded px-5">
+      <div className="mb-2 flex w-full rounded px-2 pt-4">
         <input
           className="block w-full rounded-2xl border border-gray-300 px-4 py-3 text-sm font-medium focus:border-blue-400 focus:ring-1 focus:ring-blue-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
           type="text"
