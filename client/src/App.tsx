@@ -51,7 +51,7 @@ const App = () => {
   return (
     <div className="h-dvh">
       {location.pathname !== '/' && <Navbar />}
-      <div className="mx-4 my-2 flex h-[90%] border-1 border-gray-300">
+      <div className="mx-4 my-2 flex h-[90%] border-2 border-gray-300 shadow">
         {location.pathname !== '/' && (
           <div className="w-90 border-r-1 border-gray-300">
             <Sidebar />

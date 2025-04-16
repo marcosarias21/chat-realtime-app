@@ -6,6 +6,7 @@ import { MessageChatGeneral } from '../../types/types.d'
 import { useModalStore } from '../../store/modalStore'
 import { ModalRequestUser } from '../ModalRequestUser'
 import { Send } from 'lucide-react'
+import { useChatStore } from '@/store/chatStore'
 
 interface Prop {
   messageChat: MessageChatGeneral[]
@@ -13,7 +14,9 @@ interface Prop {
 
 const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
   const { setMessage, message } = useMessageStore()
-  const { setOpen, setUserReceiver } = useModalStore()
+  const { chatAvailable } = useChatStore()
+  console.log(chatAvailable)
+  const { setOpen, setUserReceiver, userReceiver } = useModalStore()
   const { socket } = useSocketState()
   const { user } = useAuthStore()
 
@@ -23,8 +26,12 @@ const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
   }
 
   const handleRequest = (userToRequest: any) => {
-    setOpen(true)
     setUserReceiver(userToRequest._id)
+    if (chatAvailable[0]?.users?._id === userReceiver) {
+      alert('You already have a chat with this user')
+    } else {
+      setOpen(true)
+    }
   }
 
   return (

@@ -3,20 +3,20 @@ import {
   DialogBackdrop,
   DialogPanel,
   DialogTitle,
-} from "@headlessui/react";
-import { useModalStore } from "../../store/modalStore";
-import { useSocketState } from "../../store/socketStore";
-import { useAuthStore } from "../../store/authStore";
+} from '@headlessui/react'
+import { useModalStore } from '../../store/modalStore'
+import { useSocketState } from '../../store/socketStore'
+import { useAuthStore } from '../../store/authStore'
 
 const ModalRequestUser = () => {
-  const { open, setOpen, userReceiver } = useModalStore();
-  const { socket } = useSocketState();
-  const { user } = useAuthStore();
+  const { open, setOpen, userReceiver } = useModalStore()
+  const { socket } = useSocketState()
+  const { user } = useAuthStore()
 
   const sendInvitationChat = () => {
-    socket.emit("chat_request", user?._id, userReceiver);
-    setOpen(false);
-  };
+    socket.emit('chat_request', user?._id, userReceiver)
+    setOpen(false)
+  }
 
   return (
     <Dialog open={open} onClose={setOpen} className="relative z-10">
@@ -43,7 +43,7 @@ const ModalRequestUser = () => {
                   </DialogTitle>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      You are about to send a chat invitation to the user: :{" "}
+                      You are about to send a chat invitation to the user: :{' '}
                       {userReceiver}
                     </p>
                   </div>
@@ -71,7 +71,7 @@ const ModalRequestUser = () => {
         </div>
       </div>
     </Dialog>
-  );
-};
+  )
+}
 
-export default ModalRequestUser;
+export default ModalRequestUser

@@ -1,29 +1,28 @@
-import { useSocketState } from "@/store/socketStore";
-import { Button } from "../ui/button";
-import { ChatPending } from "@/types/types.d";
-import { toast } from "react-toastify";
+import { useSocketState } from '@/store/socketStore'
+import { Button } from '../ui/button'
+import { ChatPending } from '@/types/types.d'
 
 type Prop = {
-  chatPending: ChatPending;
-};
+  chatPending: ChatPending
+}
 
 const NotificationChatPending: React.FC<Prop> = ({ chatPending }) => {
-  const { socket } = useSocketState();
-  console.log(chatPending._id);
+  const { socket } = useSocketState()
+  console.log(chatPending._id)
 
-  const acceptChat = (chatPeding: ChatPending) => {
-    console.log(chatPeding);
+  const acceptChat = (chatPending: ChatPending) => {
+    console.log(chatPending)
     socket.emit(
-      "chat_accepted",
-      chatPeding._id,
-      chatPeding.sender._id,
-      chatPeding.receiver,
-    );
-    socket.on("notify_chat_accepted", (idRoom) => {
-      console.log(idRoom);
-      socket.emit("join_room", idRoom);
-    });
-  };
+      'chat_accepted',
+      chatPending._id,
+      chatPending.sender._id,
+      chatPending.receiver,
+    )
+  }
+
+  const denyChat = (chatPending: ChatPending) => {
+    socket.emit('chat_dennied', chatPending._id, chatPending.sender)
+  }
 
   return (
     <div>
@@ -39,10 +38,15 @@ const NotificationChatPending: React.FC<Prop> = ({ chatPending }) => {
         >
           Aceptar
         </Button>
-        <Button className="bg-red-400 text-white">Rechazar</Button>
+        <Button
+          onClick={() => denyChat(chatPending)}
+          className="bg-red-400 text-white"
+        >
+          Rechazar
+        </Button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default NotificationChatPending;
+export default NotificationChatPending

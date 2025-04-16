@@ -23,9 +23,13 @@ const Chat = () => {
     socket.on('chat_message', (data) => {
       setMessageChat(data)
     })
+    socket.on('chat_dennieds', (data) => {
+      alert(data)
+    })
 
     return () => {
       socket.off('chat_message')
+      socket.off('chat_dennieds')
       socket.off('notification')
       socket.off('notify_chat_accepted')
     }
