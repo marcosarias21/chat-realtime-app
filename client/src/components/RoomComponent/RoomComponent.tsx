@@ -51,6 +51,12 @@ const RoomComponent: React.FC<Prop> = ({
     }
   }
 
+  const handleDeleteChat = () => {
+    socket.emit('delete_chat', idRoom)
+    alert('Chat deleted')
+    window.location.href = '/app/chat'
+  }
+
   return (
     <div className="flex h-[100%] w-full flex-col items-center justify-between rounded border-gray-300">
       <div className="flex w-full justify-between gap-2 border-b-1 border-gray-300 px-2 py-4">
@@ -73,7 +79,7 @@ const RoomComponent: React.FC<Prop> = ({
           </div>
         </div>
         <div className="flex items-center">
-          <Button className="bg-red-500 text-white">
+          <Button className="bg-red-500 text-white" onClick={handleDeleteChat}>
             <Trash /> Delete chat
           </Button>
         </div>
