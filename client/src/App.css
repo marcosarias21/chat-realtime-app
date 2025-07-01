@@ -1,18 +1,15 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Satoshi";
+  src: url("./assets/font/Satoshi-Variable.ttf");
+}
 * {
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    "Open Sans",
-    "Helvetica Neue",
-    sans-serif;
+  font-family: "Satoshi";
+}
+
+body {
+  background-image: url("/src/assets/image/premium_photo-1681487807762-98fbe8a9db5e.avif");
 }
 
 button {
