@@ -43,7 +43,7 @@ const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
             key={index}
           >
             <div
-              className={`flex flex-col bg-blue-500 px-3 py-3 font-medium ${chat?.user?.username !== user?.username ? 'flex flex-col rounded-t-2xl rounded-l-2xl bg-gray-300 text-gray-700' : 'rounded-t-2xl rounded-r-2xl text-white/90'}`}
+              className={`flex flex-col px-5 py-3 font-medium ${chat?.user?.username !== user?.username ? 'flex flex-col rounded-t-2xl rounded-l-2xl bg-gray-300 text-gray-700' : 'rounded-t-2xl rounded-r-2xl bg-gradient-to-br from-[#9066EB] via-[#A970F7] to-[#B749FF] text-white/90'}`}
             >
               <Button
                 className="text-xs font-bold"
@@ -61,13 +61,13 @@ const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
       </div>
       <div className="mb-2 flex w-full rounded px-2 pt-4">
         <input
-          className="block w-full rounded-2xl border border-gray-300 px-4 py-3 text-sm font-medium focus:border-blue-400 focus:ring-1 focus:ring-blue-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
+          className="block w-full rounded-2xl border-1 border-black/10 px-4 py-3 text-sm font-medium text-gray-700 shadow focus:border-violet-400 focus:ring-1 focus:ring-violet-400 focus:outline-none"
           type="text"
           placeholder="Enter message"
           onChange={({ target }) => setMessage(target.value)}
           value={message}
         />
-        <button onClick={sendMessage} className="px-2 text-gray-400">
+        <button onClick={sendMessage} className="px-2 text-violet-500">
           <Send />
         </button>
       </div>

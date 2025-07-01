@@ -32,7 +32,7 @@ const Room = () => {
   }, [socket, id, location.pathname])
 
   return (
-    <div className="container mx-auto flex h-full w-full items-center justify-center gap-4 text-gray-700">
+    <div className="container mx-auto flex h-full w-full items-center justify-center gap-4 text-gray-700 backdrop-blur-md">
       <div className="flex h-[100%] w-full flex-col justify-center">
         <RoomComponent
           contentChat={roomData?.message}

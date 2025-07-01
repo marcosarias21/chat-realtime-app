@@ -18,16 +18,16 @@ const Sidebar = () => {
   }
 
   return (
-    <header className="flex h-full w-full flex-col text-gray-700">
+    <header className="flex h-full w-full flex-col text-gray-700 backdrop-blur-md">
       <div className="my-5 flex w-full items-center gap-2 pl-10">
-        <span className="rounded-full border-0 border-gray-400 bg-green-300 p-5"></span>
+        <span className="rounded-full border-0 border-gray-300 bg-green-400 p-5"></span>
         <div>
           <h2 className="font-bold">{user?.username}</h2>
           <p className="text-sm">My account</p>
         </div>
       </div>
-      <hr className="border-gray-300" />
-      <div className="flex h-full flex-col bg-[#FAFCFC] px-4">
+      <hr className="border-white/35" />
+      <div className="flex h-full flex-col px-4">
         <div className="my-4 flex items-center">
           <span className="ml-4">
             <Users />
@@ -64,7 +64,7 @@ const Sidebar = () => {
                       Status:
                       {chat.users?._id &&
                       userOnlineKey.includes(chat.users?._id) ? (
-                        <span className="font-semibold text-green-500">
+                        <span className="font-semibold text-green-600">
                           {' '}
                           Online
                         </span>
