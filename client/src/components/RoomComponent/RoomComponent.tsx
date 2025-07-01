@@ -59,9 +59,9 @@ const RoomComponent: React.FC<Prop> = ({
 
   return (
     <div className="flex h-[100%] w-full flex-col items-center justify-between rounded border-gray-300">
-      <div className="flex w-full justify-between gap-2 border-b-1 border-gray-300 px-2 py-4">
+      <div className="flex w-full justify-between gap-2 border-b-1 border-gray-300 px-5 pt-5 pb-4">
         <div className="flex gap-2">
-          <span className="flex w-fit items-center rounded-full border-2 p-2 text-gray-400">
+          <span className="flex w-fit items-center rounded-full border-1 px-2 text-gray-400">
             <User />
           </span>
           <div className="flex flex-col items-center">
@@ -91,7 +91,7 @@ const RoomComponent: React.FC<Prop> = ({
             key={index}
           >
             <div
-              className={`flex flex-col bg-blue-500 px-3 py-3 font-medium ${content?.sender?.username !== user?.username ? 'flex flex-col rounded-t-2xl rounded-l-2xl bg-gray-300 text-gray-700' : 'rounded-t-2xl rounded-r-2xl text-white/90'} ${content?.buffer && 'bg-white'}`}
+              className={`bg-gradient-to-br from-[#9066EB] via-[#A970F7] to-[#B749FF] px-5 py-3 font-medium ${content?.sender?.username !== user?.username ? 'flex flex-col rounded-t-2xl rounded-l-2xl bg-gray-300 text-gray-700' : 'rounded-t-2xl rounded-r-2xl text-white/90'} ${content?.buffer && 'bg-white'}`}
             >
               <p>{content.text}</p>
               {content.buffer && (
@@ -106,14 +106,14 @@ const RoomComponent: React.FC<Prop> = ({
       </div>
       <div className="mb-2 flex w-full rounded px-2 pt-4">
         <input
-          className="block w-full rounded-2xl border border-gray-300 px-4 py-3 text-sm font-medium focus:border-blue-400 focus:ring-1 focus:ring-blue-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
+          className="block w-full rounded-2xl border border-gray-300 px-4 py-3 text-sm font-medium focus:border-blue-400 focus:ring-1 focus:ring-blue-400 focus:outline-none"
           type="text"
           placeholder="Enter message"
           onChange={({ target }) => setInputValue(target.value)}
           value={inputValue}
         />
         <input
-          className="rounded-2xl border border-gray-300 px-4 py-3 text-sm font-medium focus:border-blue-400 focus:ring-1 focus:ring-blue-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
+          className="w-24 rounded-2xl border border-gray-300 py-3 ps-2 text-sm font-medium focus:border-blue-400 focus:ring-1 focus:ring-blue-400 focus:outline-none"
           type="file"
           onChange={({ target }) => setImageFile(target.files?.[0] ?? null)}
         />

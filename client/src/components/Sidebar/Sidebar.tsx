@@ -19,7 +19,7 @@ const Sidebar = () => {
 
   return (
     <header className="flex h-full w-full flex-col text-gray-700">
-      <div className="my-10 flex w-full items-center gap-2 pl-10">
+      <div className="my-5 flex w-full items-center gap-2 pl-10">
         <span className="rounded-full border-0 border-gray-400 bg-green-300 p-5"></span>
         <div>
           <h2 className="font-bold">{user?.username}</h2>
