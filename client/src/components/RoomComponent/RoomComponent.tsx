@@ -17,7 +17,9 @@ const RoomComponent: React.FC<Prop> = ({
   idRoom,
   userContact,
 }) => {
+  console.log(contentChat)
   const [inputValue, setInputValue] = useState<string>('')
+  console.log(inputValue)
   const { socket } = useSocketState()
   const [imageFile, setImageFile] = useState<File | null>(null)
   const { usersOnline } = useChatStore()
@@ -67,14 +69,17 @@ const RoomComponent: React.FC<Prop> = ({
           <div className="flex flex-col items-center">
             <div>
               <p className="font-bold">{userContact?.username}</p>
-              <p>
-                Status:{' '}
-                <span
-                  className={`${Object.keys(usersOnline)?.includes(userContact?._id) && 'font-bold text-green-600'}`}
-                >
-                  Online
-                </span>
-              </p>
+              {Object.keys(usersOnline)?.includes(userContact?._id) ? (
+                <p>
+                  Status:{' '}
+                  <span className="font-bold text-green-600">Online</span>
+                </p>
+              ) : (
+                <p>
+                  Status:{' '}
+                  <span className="font-bold text-red-500">Offline</span>
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -84,7 +89,7 @@ const RoomComponent: React.FC<Prop> = ({
           </Button>
         </div>
       </div>
-      <div className="h-full w-full overflow-y-scroll p-2">
+      <div className="custom-scrollbar mr-5 h-full w-full overflow-y-scroll p-5">
         {contentChat?.map((content, index) => (
           <div
             className={`mb-1 flex ${content?.sender.username != user?.username && 'justify-end text-gray-700'}`}

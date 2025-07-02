@@ -19,9 +19,11 @@ const Room = () => {
   useEffect(() => {
     socket.emit('joinRoom', id)
     socket.on('room_created', (data) => {
+      console.log(data)
       setRoomData(data)
     })
     socket.on('new_message', (data) => {
+      console.log(data)
       setRoomData(data)
     })
 
