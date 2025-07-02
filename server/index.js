@@ -125,12 +125,6 @@ io.on("connection", async (socket) => {
   socket.on(
     "send_message",
     async ({ roomID, text, id_user, filename, buffer }) => {
-      console.log("Guardar mensaje:", {
-        text,
-        sender: id_user,
-        filename,
-        buffer,
-      });
       const room = await ChatRoom.findById(roomID);
 
       room.message.push({
