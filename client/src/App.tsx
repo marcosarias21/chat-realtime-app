@@ -33,6 +33,7 @@ const App = () => {
     })
 
     socket.on('chat_available', (chats: ChatRoomType[]) => {
+      console.log(chats)
       if (chats) {
         const chatsFiltered = chats?.map((chat) => ({
           ...chat,
