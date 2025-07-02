@@ -25,7 +25,6 @@ const App = () => {
     }
     socket.emit('user_logged', user?._id)
     socket.on('users_connected', (users) => {
-      console.log(users)
       setUsersOnline(users)
     })
 
