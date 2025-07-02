@@ -15,9 +15,7 @@ interface Prop {
 const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
   const { setMessage, message } = useMessageStore()
   const { chatAvailable } = useChatStore()
-  console.log(chatAvailable)
-  const { setOpen, setUserReceiver, userReceiver } = useModalStore()
-  console.log(userReceiver)
+  const { setOpen, setUserReceiver } = useModalStore()
   const { socket } = useSocketState()
   const { user } = useAuthStore()
 
@@ -36,6 +34,7 @@ const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
     } else {
       setOpen(true)
     }
+    if (userToRequest._id === user?._id) setOpen(false)
   }
 
   return (
