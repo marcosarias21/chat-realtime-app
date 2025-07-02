@@ -45,11 +45,13 @@ io.on("connection", async (socket) => {
       "users",
       "username"
     );
-    console.log(chatAvailableUser);
 
     const user = users.get(userId);
+    console.log(user);
+    console.log(chatAvailableUser);
 
     io.to(user).emit("chat_available", [chatAvailableUser]);
+    io.emit("users_connected", Object.fromEntries(users));
   });
 
   socket.on("chat_message", async (message, id_user) => {
@@ -99,14 +101,61 @@ io.on("connection", async (socket) => {
 
   socket.on("joinRoom", async (roomID) => {
     socket.join(roomID);
-    io.to(roomID).emit("room_created", "Welcome");
+
+    const room = await ChatRoom.findById(roomID)
+      .populate({
+        path: "message.sender",
+        select: "username",
+      })
+      .populate({
+        path: "users",
+        select: "username",
+      });
+
+    if (room) {
+      io.to(roomID).emit("room_created", room);
+    } else {
+      io.to(socket.id).emit("room_error", "La sala no existe");
+    }
   });
 
-  socket.on("send_message", async ({ roomID, message, id_user }) => {
-    const room = await ChatRoom.findById(roomID);
-    room.messages.push({ message, sender: id_user });
-    await room.save();
-    io.to(roomID).emit("new_message", room);
+  socket.on(
+    "send_message",
+    async ({ roomID, text, id_user, filename, buffer }) => {
+      console.log("Guardar mensaje:", {
+        text,
+        sender: id_user,
+        filename,
+        buffer,
+      });
+      const room = await ChatRoom.findById(roomID);
+
+      room.message.push({
+        text,
+        sender: id_user,
+        filename: filename || null,
+        buffer: buffer || null,
+      });
+
+      await room.save();
+
+      const updatedRoom = await ChatRoom.findById(roomID).populate({
+        path: "message.sender",
+        select: "username",
+      });
+
+      io.to(roomID).emit("new_message", updatedRoom);
+    }
+  );
+  socket.on("disconnect", () => {
+    console.log("🔌 Usuario desconectado:", socket.id);
+    for (const [key, value] of users.entries()) {
+      if (value === socket.id) {
+        users.delete(key);
+        break;
+      }
+    }
+    io.emit("users_connected", Object.fromEntries(users));
   });
 });
 

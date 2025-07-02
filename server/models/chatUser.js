@@ -5,9 +5,10 @@ const chatRoom = new mongoose.Schema({
   message: [
     {
       sender: { type: mongoose.Schema.ObjectId, ref: "User" },
-      message: String,
+      text: String,
+      filename: String,
+      buffer: String,
     },
   ],
 });
-
 export default mongoose.model("ChatRoom", chatRoom);
