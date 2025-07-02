@@ -15,8 +15,7 @@ interface Prop {
 const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
   const { setMessage, message } = useMessageStore()
   const { chatAvailable } = useChatStore()
-  console.log(chatAvailable)
-  const { setOpen, setUserReceiver, userReceiver } = useModalStore()
+  const { setOpen, setUserReceiver } = useModalStore()
   const { socket } = useSocketState()
   const { user } = useAuthStore()
 
@@ -26,12 +25,16 @@ const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
   }
 
   const handleRequest = (userToRequest: any) => {
+    const isChatExisting = chatAvailable.some(
+      (chat) => chat.users?._id === userToRequest._id,
+    )
     setUserReceiver(userToRequest._id)
-    if (chatAvailable[0]?.users?._id === userReceiver) {
+    if (isChatExisting) {
       alert('You already have a chat with this user')
     } else {
       setOpen(true)
     }
+    if (userToRequest._id === user?._id) setOpen(false)
   }
 
   return (

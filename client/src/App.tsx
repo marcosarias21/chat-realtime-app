@@ -25,7 +25,6 @@ const App = () => {
     }
     socket.emit('user_logged', user?._id)
     socket.on('users_connected', (users) => {
-      console.log(users)
       setUsersOnline(users)
     })
 
@@ -34,6 +33,7 @@ const App = () => {
     })
 
     socket.on('chat_available', (chats: ChatRoomType[]) => {
+      console.log(chats)
       if (chats) {
         const chatsFiltered = chats?.map((chat) => ({
           ...chat,

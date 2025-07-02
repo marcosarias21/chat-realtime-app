@@ -46,11 +46,14 @@ io.on("connection", async (socket) => {
       "username"
     );
 
-    const user = users.get(userId);
-    console.log(user);
-    console.log(chatAvailableUser);
+    const socketId = users.get(userId);
 
-    io.to(user).emit("chat_available", [chatAvailableUser]);
+    if (
+      chatAvailableUser &&
+      chatAvailableUser.users.some((u) => u._id.toString() === userId)
+    ) {
+      io.to(socketId).emit("chat_available", [chatAvailableUser]);
+    }
     io.emit("users_connected", Object.fromEntries(users));
   });
 
@@ -122,12 +125,6 @@ io.on("connection", async (socket) => {
   socket.on(
     "send_message",
     async ({ roomID, text, id_user, filename, buffer }) => {
-      console.log("Guardar mensaje:", {
-        text,
-        sender: id_user,
-        filename,
-        buffer,
-      });
       const room = await ChatRoom.findById(roomID);
 
       room.message.push({
