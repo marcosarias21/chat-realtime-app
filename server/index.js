@@ -47,14 +47,12 @@ io.on("connection", async (socket) => {
     );
 
     const socketId = users.get(userId);
+    const chatWithUser = chatAvailableUser.filter((chat) =>
+      chat.users.some((user) => user._id.toString() === userId)
+    );
 
-    if (
-      chatAvailableUser &&
-      chatAvailableUser.filter((chat) =>
-        chat.users.some((user) => user._id.toString() === userId)
-      )
-    ) {
-      io.to(socketId).emit("chat_available", chatAvailableUser);
+    if (chatAvailableUser) {
+      io.to(socketId).emit("chat_available", chatWithUser);
     }
     io.emit("users_connected", Object.fromEntries(users));
   });
@@ -95,6 +93,7 @@ io.on("connection", async (socket) => {
     const chatRequest = await ChatRequest.findById(idChatRequest);
     chatRequest.status = "accepted";
     await chatRequest.save();
+    await ChatRequest.findByIdAndDelete(idChatRequest);
     const newChatRoom = new ChatRoom({
       users: [sender, receiver],
       message: [],
