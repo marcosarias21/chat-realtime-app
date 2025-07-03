@@ -10,9 +10,8 @@ const useSocketRoom = () => {
   const { user } = useAuthStore()
   const { id } = useParams()
   const [roomData, setRoomData] = useState<ChatRoomActual>()
-  const userFiltered: any = roomData?.users?.find(
-    (u) => u?.username !== user?.username,
-  )
+  const [userFiltered, setUserFiltered] = useState<any>()
+  console.log(userFiltered)
 
   useEffect(() => {
     socket.emit('joinRoom', id)
@@ -25,9 +24,14 @@ const useSocketRoom = () => {
 
     return () => {
       socket.off('room_created')
-      socket.off('new_message')
     }
   }, [socket, id, location.pathname])
+
+  useEffect(() => {
+    setUserFiltered(
+      roomData?.users?.find((u) => u?.username !== user?.username),
+    )
+  }, [roomData])
 
   return { roomData, userFiltered }
 }
