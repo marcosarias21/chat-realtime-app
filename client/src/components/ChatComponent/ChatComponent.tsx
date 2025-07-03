@@ -7,6 +7,7 @@ import { useModalStore } from '../../store/modalStore'
 import { ModalRequestUser } from '../ModalRequestUser'
 import { Send } from 'lucide-react'
 import { useChatStore } from '@/store/chatStore'
+import { CHAT_REQUEST_ALREADY_EXIST } from '@/constants/chat/chat-messages'
 
 interface Prop {
   messageChat: MessageChatGeneral[]
@@ -30,7 +31,7 @@ const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
     )
     setUserReceiver(userToRequest._id)
     if (isChatExisting) {
-      alert('You already have a chat with this user')
+      alert(CHAT_REQUEST_ALREADY_EXIST)
     } else {
       setOpen(true)
     }
