@@ -5,7 +5,10 @@ import { ChatRoomType, MessageChat, UserChat } from '@/types/types.d'
 import { Image, Send, Trash, User } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '../ui/button'
-import { CHAT_DELETED } from '@/constants/chat/chat-messages'
+import {
+  deleteChat,
+  handleSendMessage,
+} from '@/services/message/useMessageActions'
 
 type Prop = {
   contentChat?: MessageChat[]
@@ -24,38 +27,12 @@ const RoomComponent: React.FC<Prop> = ({
   const { usersOnline } = useChatStore()
   const { user } = useAuthStore()
 
-  const handleSendMessage = () => {
-    if (imageFile === null) {
-      socket.emit('send_message', {
-        roomID: idRoom,
-        text: inputValue,
-        id_user: user?._id,
-        filename: null,
-        buffer: null,
-      })
-    } else {
-      const reader = new FileReader()
-      reader.onload = () => {
-        const base64string = reader.result
-        if (base64string) {
-          socket.emit('send_message', {
-            roomID: idRoom,
-            text: inputValue,
-            id_user: user?._id,
-            filename: imageFile.name,
-            buffer: base64string,
-          })
-          setImageFile(null)
-        }
-      }
-      reader.readAsDataURL(imageFile)
-    }
+  const handleMessage = () => {
+    handleSendMessage(socket, imageFile, idRoom, inputValue, user, setImageFile)
   }
 
   const handleDeleteChat = () => {
-    socket.emit('delete_chat', idRoom)
-    alert(CHAT_DELETED)
-    window.location.href = '/app/chat'
+    deleteChat(socket, idRoom)
   }
 
   return (
@@ -131,7 +108,7 @@ const RoomComponent: React.FC<Prop> = ({
             <Image />
           </label>
         </div>
-        <button onClick={handleSendMessage} className="px-2 text-violet-500">
+        <button onClick={handleMessage} className="px-2 text-violet-500">
           <Send />
         </button>
       </div>

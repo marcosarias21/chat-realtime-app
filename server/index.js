@@ -137,10 +137,15 @@ io.on("connection", async (socket) => {
 
       await room.save();
 
-      const updatedRoom = await ChatRoom.findById(roomID).populate({
-        path: "message.sender",
-        select: "username",
-      });
+      const updatedRoom = await ChatRoom.findById(roomID)
+        .populate({
+          path: "message.sender",
+          select: "username",
+        })
+        .populate({
+          path: "users",
+          select: "username",
+        });
 
       io.to(roomID).emit("new_message", updatedRoom);
     }
