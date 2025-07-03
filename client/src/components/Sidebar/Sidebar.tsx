@@ -48,7 +48,7 @@ const Sidebar = () => {
         </div>
         {chatAvailable.length > 0 && (
           <div
-            className={`flex w-full items-center gap-2 py-2 transition-colors`}
+            className={`flex w-full flex-col items-center gap-2 py-2 transition-colors`}
           >
             {chatAvailable.map((chat) => (
               <div

@@ -41,7 +41,7 @@ io.on("connection", async (socket) => {
       io.to(socket.id).emit("notification", pendingRequest);
     }
 
-    const chatAvailableUser = await ChatRoom.findOne({ userId }).populate(
+    const chatAvailableUser = await ChatRoom.find({ users: userId }).populate(
       "users",
       "username"
     );
@@ -50,9 +50,11 @@ io.on("connection", async (socket) => {
 
     if (
       chatAvailableUser &&
-      chatAvailableUser.users.some((u) => u._id.toString() === userId)
+      chatAvailableUser.filter((chat) =>
+        chat.users.some((user) => user._id.toString() === userId)
+      )
     ) {
-      io.to(socketId).emit("chat_available", [chatAvailableUser]);
+      io.to(socketId).emit("chat_available", chatAvailableUser);
     }
     io.emit("users_connected", Object.fromEntries(users));
   });
