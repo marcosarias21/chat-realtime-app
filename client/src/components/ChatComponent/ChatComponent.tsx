@@ -1,7 +1,6 @@
 import { Button } from '@headlessui/react'
 import { useAuthStore } from '../../store/authStore'
 import { useMessageStore } from '../../store/messageStore'
-import { useSocketState } from '../../store/socketStore'
 import { MessageChatGeneral } from '../../types/types.d'
 import { useModalStore } from '../../store/modalStore'
 import { ModalRequestUser } from '../ModalRequestUser'
@@ -11,19 +10,14 @@ import { CHAT_REQUEST_ALREADY_EXIST } from '@/constants/chat/chat-messages'
 
 interface Prop {
   messageChat: MessageChatGeneral[]
+  handleSendMessage: () => void
 }
 
-const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
-  const { setMessage, message } = useMessageStore()
+const ChatComponent: React.FC<Prop> = ({ messageChat, handleSendMessage }) => {
   const { chatAvailable } = useChatStore()
+  const { message, setMessage } = useMessageStore()
   const { setOpen, setUserReceiver } = useModalStore()
-  const { socket } = useSocketState()
   const { user } = useAuthStore()
-
-  const sendMessage = () => {
-    socket.emit('chat_message', message, user?._id)
-    setMessage('')
-  }
 
   const handleRequest = (userToRequest: any) => {
     const isChatExisting = chatAvailable.some(
@@ -72,7 +66,7 @@ const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
           onChange={({ target }) => setMessage(target.value)}
           value={message}
         />
-        <button onClick={sendMessage} className="px-2 text-violet-500">
+        <button onClick={handleSendMessage} className="px-2 text-violet-500">
           <Send />
         </button>
       </div>
