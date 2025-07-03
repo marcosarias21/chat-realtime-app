@@ -2,40 +2,26 @@ import { Button } from '@headlessui/react'
 import { useAuthStore } from '../../store/authStore'
 import { useMessageStore } from '../../store/messageStore'
 import { MessageChatGeneral } from '../../types/types.d'
-import { useModalStore } from '../../store/modalStore'
 import { ModalRequestUser } from '../ModalRequestUser'
 import { Send } from 'lucide-react'
-import { useChatStore } from '@/store/chatStore'
-import { CHAT_REQUEST_ALREADY_EXIST } from '@/constants/chat/chat-messages'
 
 interface Prop {
   messageChat: MessageChatGeneral[]
   handleSendMessage: () => void
+  handleRequestChat: (arg: any) => void
 }
 
-const ChatComponent: React.FC<Prop> = ({ messageChat, handleSendMessage }) => {
-  const { chatAvailable } = useChatStore()
+const ChatComponent: React.FC<Prop> = ({
+  messageChat,
+  handleSendMessage,
+  handleRequestChat,
+}) => {
   const { message, setMessage } = useMessageStore()
-  const { setOpen, setUserReceiver } = useModalStore()
   const { user } = useAuthStore()
-
-  const handleRequest = (userToRequest: any) => {
-    const isChatExisting = chatAvailable.some(
-      (chat) => chat.users?._id === userToRequest._id,
-    )
-    setUserReceiver(userToRequest._id)
-    if (isChatExisting) {
-      alert(CHAT_REQUEST_ALREADY_EXIST)
-    } else {
-      setOpen(true)
-    }
-    if (userToRequest._id === user?._id) setOpen(false)
-  }
 
   return (
     <div className="flex h-[100%] flex-col items-center justify-between rounded">
       <div className="custom-scrollbar mr-5 h-full w-full overflow-y-scroll p-5">
-        {' '}
         {messageChat?.map((chat, index) => (
           <div
             className={`mb-1 flex ${chat?.user?.username != user?.username && 'justify-end text-gray-700'}`}
@@ -46,7 +32,7 @@ const ChatComponent: React.FC<Prop> = ({ messageChat, handleSendMessage }) => {
             >
               <Button
                 className="text-xs font-bold"
-                onClick={() => handleRequest(chat.user)}
+                onClick={() => handleRequestChat(chat.user)}
               >
                 {chat?.user?.username == user?.username
                   ? 'Me:'

@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react'
-import { ChatPending, MessageChatGeneral } from '../../types/types.d'
+import { ChatPending, MessageChatGeneral, User } from '../../types/types.d'
 import { ChatComponent } from '../../components/ChatComponent'
 import { useSocketState } from '../../store/socketStore'
 import { useAuthStore } from '../../store/authStore'
 import { ToastContainer, toast } from 'react-toastify'
 import { NotificationChatPending } from '@/components/NotificationChatPending'
-import { sendMessage } from '@/services/chat/useChat'
+import { handleRequest, sendMessage } from '@/services/chat/useChat'
 import { useMessageStore } from '@/store/messageStore'
+import { useChatStore } from '@/store/chatStore'
+import { useModalStore } from '@/store/modalStore'
 
 const Chat = () => {
   const [messageChat, setMessageChat] = useState<MessageChatGeneral[]>([])
+  const { setOpen, setUserReceiver } = useModalStore()
   const [chatPending, setChatPending] = useState<ChatPending>()
+  const { chatAvailable } = useChatStore()
   const { socket } = useSocketState()
   const { setMessage, message } = useMessageStore()
   const { user } = useAuthStore()
@@ -18,6 +22,10 @@ const Chat = () => {
   const handleSendMessage = () => {
     if (!user) return
     sendMessage(socket, user, message, setMessage)
+  }
+
+  const handleRequestChat = (userToRequest: User) => {
+    handleRequest(chatAvailable, userToRequest, setUserReceiver, setOpen, user)
   }
 
   useEffect(() => {
@@ -55,6 +63,7 @@ const Chat = () => {
         <ChatComponent
           messageChat={messageChat}
           handleSendMessage={handleSendMessage}
+          handleRequestChat={handleRequestChat}
         />
       </div>
       {chatPending && <ToastContainer />}
