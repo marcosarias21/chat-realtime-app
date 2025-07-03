@@ -5,49 +5,22 @@ import { useEffect } from 'react'
 import { useAuthStore } from './store/authStore'
 import { Room } from './pages/Room'
 import { Sidebar } from './components/Sidebar'
-import { useSocketState } from './store/socketStore'
-import { ChatRoomType } from './types/types.d'
-import { useChatStore } from './store/chatStore'
-import './App.css'
 import { Navbar } from './components/Navbar'
+import './App.css'
+import useSocketHandler from './hooks/useSocketHandler'
 
 const App = () => {
   const { user } = useAuthStore()
   const location = useLocation()
-  const { setUsersOnline } = useChatStore()
   const navigate = useNavigate()
-  const { socket } = useSocketState()
-  const { setChatAvailable } = useChatStore()
 
   useEffect(() => {
     if (!user) {
       navigate('')
     }
-    socket.emit('user_logged', user?._id)
-    socket.on('users_connected', (users) => {
-      setUsersOnline(users)
-    })
+  }, [])
 
-    socket.on('disconnect', () => {
-      console.log('Desconectado')
-    })
-
-    socket.on('chat_available', (chats: ChatRoomType[]) => {
-      console.log(chats)
-      if (chats) {
-        const chatsFiltered = chats?.map((chat) => ({
-          ...chat,
-          users: chat.users.find((c) => c.username != user?.username),
-        }))
-        setChatAvailable(chatsFiltered)
-      }
-    })
-    return () => {
-      socket.off('user_logged')
-      socket.off('users_connected')
-      socket.off('chat_available')
-    }
-  }, [socket, user, location.pathname])
+  useSocketHandler(user)
 
   return (
     <div className="h-dvh">

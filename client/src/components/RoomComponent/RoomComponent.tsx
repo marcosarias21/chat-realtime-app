@@ -5,6 +5,7 @@ import { ChatRoomType, MessageChat, UserChat } from '@/types/types.d'
 import { Image, Send, Trash, User } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '../ui/button'
+import { CHAT_DELETED } from '@/constants/chat/chat-messages'
 
 type Prop = {
   contentChat?: MessageChat[]
@@ -17,9 +18,7 @@ const RoomComponent: React.FC<Prop> = ({
   idRoom,
   userContact,
 }) => {
-  console.log(contentChat)
   const [inputValue, setInputValue] = useState<string>('')
-  console.log(inputValue)
   const { socket } = useSocketState()
   const [imageFile, setImageFile] = useState<File | null>(null)
   const { usersOnline } = useChatStore()
@@ -55,7 +54,7 @@ const RoomComponent: React.FC<Prop> = ({
 
   const handleDeleteChat = () => {
     socket.emit('delete_chat', idRoom)
-    alert('Chat deleted')
+    alert(CHAT_DELETED)
     window.location.href = '/app/chat'
   }
 
