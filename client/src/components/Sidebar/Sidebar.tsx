@@ -7,7 +7,6 @@ import { useState } from 'react'
 const Sidebar = () => {
   const { user } = useAuthStore()
   const { chatAvailable, usersOnline } = useChatStore()
-  console.log(usersOnline)
   const [idPath, setIdPath] = useState<string>()
   const { pathname } = useLocation()
   const userOnlineKey = Object.keys(usersOnline)

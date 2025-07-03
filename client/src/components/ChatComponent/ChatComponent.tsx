@@ -39,7 +39,8 @@ const ChatComponent: React.FC<Prop> = ({ messageChat }) => {
 
   return (
     <div className="flex h-[100%] flex-col items-center justify-between rounded">
-      <div className="h-full w-full overflow-y-scroll p-2">
+      <div className="custom-scrollbar mr-5 h-full w-full overflow-y-scroll p-5">
+        {' '}
         {messageChat?.map((chat, index) => (
           <div
             className={`mb-1 flex ${chat?.user?.username != user?.username && 'justify-end text-gray-700'}`}
