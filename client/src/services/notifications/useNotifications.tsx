@@ -19,3 +19,11 @@ export const denyChatNotification = (
 ) => {
   socket.emit('chat_dennied', chatPending._id, chatPending.sender)
 }
+
+export const sendChatRequest = (
+  socket: Socket,
+  idUser: string | undefined,
+  userReceiver: string,
+) => {
+  socket.emit('chat_request', idUser, userReceiver)
+}
