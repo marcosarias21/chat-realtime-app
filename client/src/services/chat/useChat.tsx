@@ -1,4 +1,7 @@
-import { CHAT_REQUEST_ALREADY_EXIST } from '@/constants/chat/chat-messages'
+import {
+  CHAT_DELETED,
+  CHAT_REQUEST_ALREADY_EXIST,
+} from '@/constants/chat/chat-messages'
 import { ChatRoomFiltered, User } from '@/types/types.d'
 import { Socket } from 'socket.io-client'
 
@@ -28,4 +31,10 @@ export const handleRequest = (
     setOpen(true)
   }
   if (userToRequest._id === user?._id) setOpen(false)
+}
+
+export const deleteChat = (socket: Socket, idRoom: string | undefined) => {
+  socket.emit('delete_chat', idRoom)
+  alert(CHAT_DELETED)
+  window.location.href = '/app/chat'
 }

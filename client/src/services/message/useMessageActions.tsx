@@ -1,4 +1,3 @@
-import { CHAT_DELETED } from '@/constants/chat/chat-messages'
 import { User } from '@/types/types.d'
 import { Socket } from 'socket.io-client'
 
@@ -35,10 +34,4 @@ export const handleSendMessage = (
     }
     reader.readAsDataURL(imageFile)
   }
-}
-
-export const deleteChat = (socket: Socket, idRoom: string | undefined) => {
-  socket.emit('delete_chat', idRoom)
-  alert(CHAT_DELETED)
-  window.location.href = '/app/chat'
 }

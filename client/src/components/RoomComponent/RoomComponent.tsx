@@ -5,10 +5,8 @@ import { ChatRoomType, MessageChat, UserChat } from '@/types/types.d'
 import { Image, Send, Trash, User } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '../ui/button'
-import {
-  deleteChat,
-  handleSendMessage,
-} from '@/services/message/useMessageActions'
+import { handleSendMessage } from '@/services/message/useMessageActions'
+import { deleteChat } from '@/services/chat/useChat'
 
 type Prop = {
   contentChat?: MessageChat[]

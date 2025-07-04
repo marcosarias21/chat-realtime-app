@@ -1,6 +1,10 @@
 import { useSocketState } from '@/store/socketStore'
 import { Button } from '../ui/button'
 import { ChatPending } from '@/types/types.d'
+import {
+  acceptChatNotification,
+  denyChatNotification,
+} from '@/services/notifications/useNotifications'
 
 type Prop = {
   chatPending: ChatPending
@@ -8,20 +12,13 @@ type Prop = {
 
 const NotificationChatPending: React.FC<Prop> = ({ chatPending }) => {
   const { socket } = useSocketState()
-  console.log(chatPending._id)
 
   const acceptChat = (chatPending: ChatPending) => {
-    console.log(chatPending)
-    socket.emit(
-      'chat_accepted',
-      chatPending._id,
-      chatPending.sender._id,
-      chatPending.receiver,
-    )
+    acceptChatNotification(socket, chatPending)
   }
 
   const denyChat = (chatPending: ChatPending) => {
-    socket.emit('chat_dennied', chatPending._id, chatPending.sender)
+    denyChatNotification(socket, chatPending)
   }
 
   return (
