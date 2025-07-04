@@ -7,6 +7,7 @@ import {
 import { useModalStore } from '../../store/modalStore'
 import { useSocketState } from '../../store/socketStore'
 import { useAuthStore } from '../../store/authStore'
+import { sendChatRequest } from '@/services/notifications/useNotifications'
 
 const ModalRequestUser = () => {
   const { open, setOpen, userReceiver } = useModalStore()
@@ -14,7 +15,7 @@ const ModalRequestUser = () => {
   const { user } = useAuthStore()
 
   const sendInvitationChat = () => {
-    socket.emit('chat_request', user?._id, userReceiver)
+    sendChatRequest(socket, user?._id, userReceiver)
     setOpen(false)
   }
 

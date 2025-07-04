@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom'
 type Prop = ChatRoomType
 
 const ChatRoom: React.FC<Prop> = ({ users, _id }) => {
-  console.log(_id)
   const { user } = useAuthStore()
   const navigate = useNavigate()
   const usersFiltered = users.filter((u) => u.username != user?.username)
