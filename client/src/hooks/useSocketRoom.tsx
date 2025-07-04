@@ -11,7 +11,6 @@ const useSocketRoom = () => {
   const { id } = useParams()
   const [roomData, setRoomData] = useState<ChatRoomActual>()
   const [userFiltered, setUserFiltered] = useState<any>()
-  console.log(userFiltered)
 
   useEffect(() => {
     socket.emit('joinRoom', id)
